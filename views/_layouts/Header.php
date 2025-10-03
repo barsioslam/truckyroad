@@ -18,8 +18,8 @@
         <!-- CSS LOADING -->
         <link rel="stylesheet" href="/assets/css/general.css">
         <?php
-        if (isset($page['csslist']) && is_array($page['csslist'])) {
-            foreach ($page['csslist'] as $cssFile) {
+        if (isset($page['css']) && is_array($page['css'])) {
+            foreach ($page['css'] as $cssFile) {
                 echo '<link rel="stylesheet" href="/assets/css/' . htmlspecialchars($cssFile) . '.css">';
             }
         }
@@ -27,8 +27,8 @@
 
         <!-- JS PRELOAD FILES -->
         <?php
-        if (isset($page['jspreloadlist']) && is_array($page['jspreloadlist'])) {
-            foreach ($page['jspreloadlist'] as $jsFile) {
+        if (isset($page['jspre']) && is_array($page['jspre'])) {
+            foreach ($page['jspre'] as $jsFile) {
                 echo '<script src="/assets/js/' . htmlspecialchars($jsFile) . '.js"></script>';
             }
         }
@@ -38,10 +38,8 @@
         <?php
         if (isset($page['navbar']) && !empty($page['navbar'])) {
         ?>
-        
         <!-- NAVBAR -->
-        <?php require_once(LAYOUT_PATH . $page['navbar'] . '/navbar.php'); ?>
-
+        <?php require_once(LAYOUT_PATH . $page['controller'] . '/navbar.php'); ?>
         <?php
         }
         ?>

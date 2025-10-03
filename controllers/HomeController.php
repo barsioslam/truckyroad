@@ -2,6 +2,8 @@
 
 // Home
 
+require_once('Controller.php');
+
 class HomeController extends Controller {
 
     static function index() {

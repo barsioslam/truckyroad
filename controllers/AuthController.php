@@ -2,6 +2,8 @@
 
 // Auth
 
+require_once('Controller.php');
+
 class AuthController extends Controller {
 
     static function login() {

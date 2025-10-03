@@ -6,7 +6,7 @@ define('MODEL_PATH', __DIR__ . '/models/');
 define('VIEW_PATH', __DIR__ . '/views/');
 define('CONTROLLER_PATH', __DIR__ . '/controllers/');
 
-define('LAYOUT_PATH', VIEW_PATH . 'layouts/');
+define('LAYOUT_PATH', VIEW_PATH . '_layouts/');
 
 define('ASSETS_PATH', __DIR__ . '/assets/');
 
