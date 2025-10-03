@@ -13,7 +13,7 @@
         <title><?= $title; ?></title>
 
         <!-- CSSHIFTER -->
-        <link rel="stylesheet" href="/assets/_modules/csshifter/csshifter.css">
+        <link rel="stylesheet" href="https://crafterhide.fr/dep/csshifter/v1/csshifter.css">
 
         <!-- CSS LOADING -->
         <link rel="stylesheet" href="/assets/css/general.css">
