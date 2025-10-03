@@ -1,7 +1,7 @@
         <!-- JS POSTLOAD FILES -->
         <?php
-        if (isset($page['jspostloadlist']) && is_array($page['jspostloadlist'])) {
-            foreach ($page['jspostloadlist'] as $jsFile) {
+        if (isset($page['js_post']) && is_array($page['js_post'])) {
+            foreach ($page['js_post'] as $jsFile) {
                 echo '<script src="/assets/js/' . htmlspecialchars($jsFile) . '.js"></script>';
             }
         }

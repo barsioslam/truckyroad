@@ -27,8 +27,8 @@
 
         <!-- JS PRELOAD FILES -->
         <?php
-        if (isset($page['jspre']) && is_array($page['jspre'])) {
-            foreach ($page['jspre'] as $jsFile) {
+        if (isset($page['js_pre']) && is_array($page['js_pre'])) {
+            foreach ($page['js_pre'] as $jsFile) {
                 echo '<script src="/assets/js/' . htmlspecialchars($jsFile) . '.js"></script>';
             }
         }

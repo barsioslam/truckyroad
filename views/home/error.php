@@ -1,1 +1,1 @@
-error <?= $e; ?>
+error
