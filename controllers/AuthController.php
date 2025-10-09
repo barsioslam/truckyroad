@@ -11,7 +11,7 @@ class AuthController extends Controller {
             "auth",
             "login",
             "TruckyRoad - Connexion",
-            [],
+            ['forms'],
             [],
             [],
             true
@@ -23,7 +23,7 @@ class AuthController extends Controller {
             "auth",
             "signin",
             "TruckyRoad - Inscription",
-            [],
+            ['forms'],
             [],
             [],
             true

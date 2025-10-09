@@ -30,7 +30,7 @@ class HomeController extends Controller {
             "home",
             "search",
             "TruckyRoad - " . ($title_complement ?? "Rechercher"),
-            [],
+            ['forms'],
             [],
             [],
             true
