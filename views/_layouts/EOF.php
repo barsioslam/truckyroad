@@ -1,3 +1,7 @@
+        <!-- FOOTER -->
+        <?php
+        require_once(LAYOUT_PATH . 'footer.php');
+        ?>
         <!-- JS POSTLOAD FILES -->
         <?php
         if (isset($page['js_post']) && is_array($page['js_post'])) {

@@ -17,6 +17,8 @@
 
         <!-- CSS LOADING -->
         <link rel="stylesheet" href="/assets/css/general.css">
+        <link rel="stylesheet" href="/assets/css/navbar.css">
+        <link rel="stylesheet" href="/assets/css/footer.css">
         <?php
         if (isset($page['css']) && is_array($page['css'])) {
             foreach ($page['css'] as $cssFile) {

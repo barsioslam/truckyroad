@@ -10,7 +10,26 @@ class HomeController extends Controller {
         self::Show(
             "home",
             "index",
-            "INDEX PAGE TITLE",
+            "TruckyRoad",
+            [],
+            [],
+            [],
+            true
+        );
+    }
+
+    static function search() {
+        if (isset($_GET['q']) AND !empty($_GET['q'])) {
+            if ($_GET['q'] == "random") {
+                $title_complement = "Aléatoire";
+            } else if ($_GET['q'] == "arround") {
+                $title_complement = "Autour de moi";
+            }
+        }
+        self::Show(
+            "home",
+            "search",
+            "TruckyRoad - " . ($title_complement ?? "Rechercher"),
             [],
             [],
             [],
@@ -22,7 +41,7 @@ class HomeController extends Controller {
         self::Show(
             "home",
             "error",
-            "ERROR PAGE TITLE",
+            "TruckyRoad - Erreur",
             [],
             [],
             [],

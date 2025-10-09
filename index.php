@@ -10,7 +10,7 @@ define('LAYOUT_PATH', VIEW_PATH . '_layouts/');
 
 define('ASSETS_PATH', __DIR__ . '/assets/');
 
-$url = isset($_GET['url']) ? $_GET['url'] : 'home/redirect';
+$url = isset($_GET['url']) ? $_GET['url'] : 'home/index';
 $url = rtrim($url, '/');
 $segments = explode('/', $url);
 
@@ -32,7 +32,14 @@ if (file_exists(CONTROLLER_PATH . $controllerName . ".php")) {
 } else {
     require_once CONTROLLER_PATH . 'HomeController.php';
     $controller = new HomeController();
-    $controller->error('404');
+    if (method_exists($controller, $segments[0])) {
+        call_user_func_array([$controller, $segments[0]], $params);
+    } else {
+        require_once CONTROLLER_PATH . 'HomeController.php';
+        $controller = new HomeController();
+        $controller->error('404');
+        echo $method;
+    }
 }
 
 ?>

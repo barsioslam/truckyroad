@@ -10,7 +10,7 @@ class AuthController extends Controller {
         self::Show(
             "auth",
             "login",
-            "LOGIN PAGE TITLE",
+            "TruckyRoad - Connexion",
             [],
             [],
             [],
@@ -22,7 +22,7 @@ class AuthController extends Controller {
         self::Show(
             "auth",
             "signin",
-            "SIGNIN PAGE TITLE",
+            "TruckyRoad - Inscription",
             [],
             [],
             [],
@@ -31,15 +31,10 @@ class AuthController extends Controller {
     }
 
     static function logout() {
-        self::Show(
-            "auth",
-            "logout",
-            "LOGOUT PAGE TITLE",
-            [],
-            [],
-            [],
-            true
-        );
+        session_unset();
+        session_destroy();
+        header('Location: /');
+        exit;
     }
 
 }

@@ -1,0 +1,73 @@
+#navbar {
+    display: flex;
+    background-color: black;
+    justify-content: space-between;
+}
+#navbar.center {
+    justify-content: center;
+}
+
+#navbar div.link-box {
+    display: flex;
+}
+
+#navbar div.link-box a#trucky {
+    background: linear-gradient(168deg, #ffae00, #ff0000);
+    color: white;
+
+    transition: color 0.2s;
+}
+#navbar div.link-box a#trucky:hover {
+    color: black;
+
+    transition: color 0.2s;
+}
+
+#navbar div.link-box a.link {
+    position: relative;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    text-decoration-line: none;
+}
+
+
+#navbar div.link-box a.link-span::before {
+    content: "";
+    background: linear-gradient(168deg, #ffae00, #ff0000);
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    height: 3px;
+    border-radius: 5px;
+    width: 0px;
+    transform: translateX(-50%);
+
+    transition: width 0.2s;
+}
+#navbar div.link-box a.link:hover::before {
+    width: calc(100% - 10px);
+
+    transition: width 0.2s;
+}
+
+@media screen and (max-width: 800px) {
+    #navbar {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+    #navbar div.link-box {
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    #navbar {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    #navbar div.link-box {
+        flex-direction: row;
+    }
+}
