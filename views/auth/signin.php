@@ -4,6 +4,10 @@
         <input type="email" name="email" id="emailInput" placeholder="example@website.xyz">
     </div>
     <div class="input-box">
+        <label for="usernameInput">Nom d'utilisateur: </label>
+        <input type="text" name="username" id="usernameInput" placeholder="John Doe">
+    </div>
+    <div class="input-box">
         <label for="passwordInput">Mot de passe: </label>
         <input type="password" name="password" id="passwordInput" placeholder="********">
     </div>
