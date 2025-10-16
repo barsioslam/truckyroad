@@ -1,8 +1,6 @@
 <?php
 
-// Home
-
-require_once('Controller.php');
+namespace App\Controllers;
 
 class HomeController extends Controller {
 

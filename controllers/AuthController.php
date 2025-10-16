@@ -1,8 +1,6 @@
 <?php
 
-// Auth
-
-require_once('Controller.php');
+namespace App\Controllers;
 
 class AuthController extends Controller {
 

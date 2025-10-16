@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class Controller {
 
     static function Show($controller, $name, $title, $css_list, $js_preload_list, $js_postload_list, $activate_nav) {
