@@ -10,4 +10,9 @@
     <div class="input-box">
         <input type="submit" value="Se connecter">
     </div>
+    <?php
+    if (isset($errors['general']) && !empty($errors['general'])) {
+        echo '<div class="error-message">' . htmlspecialchars($errors['general']) . '</div>';
+    }
+    ?>
 </form>

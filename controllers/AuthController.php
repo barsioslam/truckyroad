@@ -2,11 +2,70 @@
 
 namespace App\Controllers;
 
-use App\DB\Database;
+use App\Models\User;
 
 class AuthController extends Controller {
 
     static function login() {
+
+        if (isset($_SESSION['id'])) {
+            header('Location: /');
+            exit;
+        }
+
+        $userinstance = new User();
+
+        $errors = [];
+        $values = [
+            'email' => '',
+            'password' => ''
+        ];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user_id = null;
+            $user_role = null;
+            $values['email'] = trim($_POST['email'] ?? '');
+            $values['password'] = $_POST['password'] ?? '';
+
+            if ($userinstance->rowCount(($userinstance->findBy("email", $values['email']))) == 0) {
+                $errors['general'] = "Identifiant ou mot de passe incorrect !";
+            }
+
+            if (!empty($values['password'])) {
+                if (!isset($errors['general'])) {
+                    $userinstance->findBy("email", $values['email']);
+                    $rows = $userinstance->rowCount();
+                    die("Num of rows:" . $rows);
+                    foreach ($userinstance->fetchAll() as $user) {
+                        if (!password_verify($values['password'], $user['password_hash'])) {
+                            $errors['general'] = "Identifiant ou mot de passe incorrect !";
+                        } else {
+                            $user_id = $user['id'];
+                            $user_role = $user['role'];
+                        }
+                    }
+                }
+            } else {
+                $errors['general'] = "Identifiant ou mot de passe incorrect !";
+            }
+
+            if (empty($errors)) {
+
+                $_SESSION['id'] = $user_id;
+                if ($user_role == 'admin') {
+                    header('Location: /dashboard');
+                    exit;
+                } elseif ($user_role == 'truck_owner') {
+                    header('Location: /dashboard/my_truck');
+                    exit;
+                } else {
+                    header('Location: /');
+                    exit;
+                }
+
+            }
+        }
+
         self::Show(
             "auth",
             "login",
@@ -14,11 +73,20 @@ class AuthController extends Controller {
             ['forms'],
             [],
             [],
-            true
+            true,
+            ['errors' => $errors]
         );
     }
 
-    static function signin() {)
+    static function signin() {
+
+        if (isset($_SESSION['id'])) {
+            header('Location: /');
+            exit;
+        }
+
+        $userinstance = new User();
+
         $errors = [];
         $values = [
             'email' => '',
@@ -33,34 +101,54 @@ class AuthController extends Controller {
             $values['password'] = $_POST['password'] ?? '';
             $values['repassword'] = $_POST['repassword'] ?? '';
 
-            // Email validation
             if (empty($values['email'])) {
                 $errors['email'] = "L'email est requis.";
             } elseif (!filter_var($values['email'], FILTER_VALIDATE_EMAIL)) {
                 $errors['email'] = "L'email n'est pas valide.";
+            } elseif ($userinstance->rowCount(($userinstance->findBy("email", $values['email']))) > 0) {
+                $errors['email'] = "Cet email est déjà utilisé.";
             }
 
-            // Username validation
             if (empty($values['username'])) {
                 $errors['username'] = "Le nom d'utilisateur est requis.";
+            } elseif (strlen($values['username']) < 3 || strlen($values['username']) > 20) {
+                $errors['username'] = "Le nom d'utilisateur doit contenir entre 3 et 20 caractères.";
+            } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $values['username'])) {
+                $errors['username'] = "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et des underscores.";
+            } elseif ($userinstance->rowCount(($userinstance->findBy("name", $values['username']))) > 0) {
+                $errors['username'] = "Ce nom d'utilisateur est déjà utilisé.";
             }
 
-            // Password validation
             if (empty($values['password'])) {
                 $errors['password'] = "Le mot de passe est requis.";
-            } elseif (strlen($values['password']) < 6) {
-                $errors['password'] = "Le mot de passe doit contenir au moins 6 caractères.";
+            } elseif (strlen($values['password']) < 10) {
+                $errors['password'] = "Le mot de passe doit contenir au moins 10 caractères.";
+            } elseif (!preg_match('/[A-Z]/', $values['password']) ||
+                       !preg_match('/[a-z]/', $values['password']) ||
+                       !preg_match('/[0-9]/', $values['password']) ||
+                       !preg_match('/[\W]/', $values['password'])) {
+                $errors['password'] = "Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.";
             }
 
-            // Repassword validation
             if ($values['password'] !== $values['repassword']) {
                 $errors['repassword'] = "Les mots de passe ne correspondent pas.";
             }
 
-            // Si pas d'erreurs, on peut poursuivre l'inscription (à compléter)
             if (empty($errors)) {
-                // TODO: Ajouter l'inscription en base de données
-                // Rediriger ou afficher un message de succès
+                $req_value = $userinstance->create([
+                    'email' => $values['email'],
+                    'name' => $values['username'],
+                    'password_hash' => password_hash($values['password'], PASSWORD_BCRYPT)
+                ]);
+
+                if ($req_value == 0) {
+                    $errors['general'] = "Une erreur est survenue lors de l'inscription. Veuillez réessayer.";
+                } else {
+
+                    $_SESSION['id'] = $req_value;
+                    header('Location: /');
+                    exit;
+                }
             }
         }
 
@@ -71,7 +159,8 @@ class AuthController extends Controller {
             ['forms'],
             [],
             [],
-            true
+            true,
+            ['errors' => $errors]
         );
     }
 

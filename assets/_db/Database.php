@@ -19,7 +19,7 @@ class Database {
 	function __construct($host = null, $name = null, $user = null, $pass = null){
 		// Define CONF_PATH if not already defined
 		if (!defined('CONF_PATH')) {
-			define('CONF_PATH', __DIR__ . '../_conf/');
+			define('CONF_PATH', __DIR__ . '/../_conf/');
 		}
 		$config = parse_ini_file(CONF_PATH . "db.ini", true);
 		if ($host != null) {
