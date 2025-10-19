@@ -22,49 +22,31 @@ class AuthController extends Controller {
         ];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $user_id = null;
-            $user_role = null;
             $values['email'] = trim($_POST['email'] ?? '');
             $values['password'] = $_POST['password'] ?? '';
 
-            if ($userinstance->rowCount(($userinstance->findBy("email", $values['email']))) == 0) {
-                $errors['general'] = "Identifiant ou mot de passe incorrect !";
-            }
+            $errors = [];
 
-            if (!empty($values['password'])) {
-                if (!isset($errors['general'])) {
-                    $userinstance->findBy("email", $values['email']);
-                    $rows = $userinstance->rowCount();
-                    die("Num of rows:" . $rows);
-                    foreach ($userinstance->fetchAll() as $user) {
-                        if (!password_verify($values['password'], $user['password_hash'])) {
-                            $errors['general'] = "Identifiant ou mot de passe incorrect !";
-                        } else {
-                            $user_id = $user['id'];
-                            $user_role = $user['role'];
-                        }
-                    }
-                }
+            // Récupération directe
+            $user = $userinstance->findBy("email", $values['email']); // retourne le row unique
+
+            if (!$user || !password_verify($values['password'], $user['password_hash'])) {
+                $errors['general'] = "Identifiant ou mot de passe incorrect !";
             } else {
-                $errors['general'] = "Identifiant ou mot de passe incorrect !";
-            }
+                // Connexion réussie
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['role'] = $user['role'];
 
-            if (empty($errors)) {
-
-                $_SESSION['id'] = $user_id;
-                if ($user_role == 'admin') {
+                if ($user['role'] === 'admin') {
                     header('Location: /dashboard');
-                    exit;
-                } elseif ($user_role == 'truck_owner') {
+                } elseif ($user['role'] === 'truck_owner') {
                     header('Location: /dashboard/my_truck');
-                    exit;
                 } else {
                     header('Location: /');
-                    exit;
                 }
-
+                exit;
             }
-        }
+            }
 
         self::Show(
             "auth",
