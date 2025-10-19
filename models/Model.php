@@ -26,6 +26,14 @@ abstract class Model {
 		return $result ? $result[0] : null;
 	}
 
+	public function findAllBy($elemnt, $value) {
+		$db = \App\DB\Database::getInstance();
+		$sql = "SELECT * FROM {$this->table} WHERE {$elemnt} = ?";
+		$db->prepare($sql, [$value]);
+		$result = $db->fetchAll();
+		return $result ? $result[0] : null;
+	}
+
 	public function findAll() {
 		$db = \App\DB\Database::getInstance();
 		$sql = "SELECT * FROM {$this->table}";
